@@ -2,15 +2,21 @@ import re
 
 def passwordValidator(password):
 
-    regex = re.compile('[@_!#$%^&*()<>?/\|}{~:]')
+    special_symbols = re.compile('[@_!#$%^&*()<>?/\|}{~:]')
+    pass_valid = True
+    message = []
 
-    if len(password) < 8 and sum(map(str.isdigit, password)) < 2:
-        return "Password must be at least 8 characters\nThe password must contain at least 2 numbers"
-    elif sum(map(str.isdigit, password)) < 2:
-        return "The password must contain at least 2 numbers"
-    elif len(password) < 8:
-        return "Password must be at least 8 characters"
-    elif sum(map(str.isupper, password)) < 1:
-        return "password must contain at least one capital letter"
-    elif regex.search(password) == None:
-        return "password must contain at least one special character"
+    if len(password) < 8:
+        message.append("Password must be at least 8 characters")
+        pass_valid = False
+    if sum(map(str.isdigit, password)) < 2:
+        message.append("The password must contain at least 2 numbers")
+        pass_valid = False
+    if sum(map(str.isupper, password)) < 1:
+        message.append("password must contain at least one capital letter")
+        pass_valid = False
+    if special_symbols.search(password) == None:
+        message.append("password must contain at least one special character")
+        pass_valid = False
+        
+    return pass_valid, "\n".join(message)
