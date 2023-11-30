@@ -30,17 +30,6 @@ import PasswordValidator
 
 class TestPaswordValidaro(unittest.TestCase):
 
-    def test_multiple_validation_errors(self):
-        """
-        3. The validation function should handle multiple validation errors.
-        - For example, “somepassword” should an error message:
-         “Password must be at least 8 characters\nThe password must contain at least 2 numbers”
-
-        """
-        expected = "Password must be at least 8 characters\nThe password must contain at least 2 numbers"
-        result = PasswordValidator.passwordValidator("poli")
-
-        self.assertEqual(expected, result)
 
     def test_length_of_password(self):
         """
@@ -48,8 +37,8 @@ class TestPaswordValidaro(unittest.TestCase):
          If it is not met, then the following error message should be returned:
         “Password must be at least 8 characters”
         """
-        expected = "Password must be at least 8 characters"
-        result = PasswordValidator.passwordValidator("poli123")
+        expected = False, "Password must be at least 8 characters"
+        result = PasswordValidator.passwordValidator("polI@23")
 
         self.assertEqual(expected, result)
 
@@ -59,8 +48,20 @@ class TestPaswordValidaro(unittest.TestCase):
          If it is not met, then the following error message should be returned:
         “The password must contain at least 2 numbers”
         """
-        expected = "The password must contain at least 2 numbers"
-        result = PasswordValidator.passwordValidator("polipoli")
+        expected = False, "The password must contain at least 2 numbers"
+        result = PasswordValidator.passwordValidator("polipolI@")
+
+        self.assertEqual(expected, result)
+
+    def test_multiple_validation_errors(self):
+        """
+        3. The validation function should handle multiple validation errors.
+        - For example, “somepassword” should an error message:
+         “Password must be at least 8 characters\nThe password must contain at least 2 numbers”
+
+        """
+        expected = False, "Password must be at least 8 characters\nThe password must contain at least 2 numbers"
+        result = PasswordValidator.passwordValidator("polI@")
 
         self.assertEqual(expected, result)
 
@@ -71,8 +72,10 @@ class TestPaswordValidaro(unittest.TestCase):
         If it is not met, then the following error message should be returned:
         “password must contain at least one capital letter”
         """
-        expected = "password must contain at least one capital letter"
-        result = PasswordValidator.passwordValidator("polipol112")
+        expected = False, "password must contain at least one capital letter"
+        result = PasswordValidator.passwordValidator("polipol@112")
+
+        self.assertEqual(expected, result)
 
     def test_contains_special_simbols(self):
         """
@@ -80,7 +83,7 @@ class TestPaswordValidaro(unittest.TestCase):
         If it is not met, then the following error message should be returned:
         “password must contain at least one special character”
         """
-        expected = "password must contain at least one special character"
+        expected = False, "password must contain at least one special character"
         result = PasswordValidator.passwordValidator("Paulina1234")
 
         self.assertEqual(expected, result)
